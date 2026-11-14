@@ -1,0 +1,25 @@
+name: kit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # The inventory and the glyph grammar of the whole kit, not a sample: every
+  # format and size the README promises, the three colourways, and the mark in
+  # the cyan family. `brandcheck` is the fleet's Go program for it (go-fft/brand
+  # runs a Python script for the same question). CI has the checkout alone, so
+  # the organisation is named.
+  complete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+          cache: false
+      - run: go run github.com/go-fleettools/fleettools/cmd/brandcheck@v0.111.0 --org go-avkit .
